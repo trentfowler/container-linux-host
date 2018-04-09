@@ -5,12 +5,8 @@ build-essential && \
 gvm && \
 #google cloud sdk
 #ct transpiler
-#
 #git clone --branch v0.5.0 https://github.com/coreos/container-linux-config-transpiler
 #cd container-linux-config-transpiler
 #make
-#
-#matchbox
-#quay
-#ignition
-#...
+# matchbox - https://github.com/coreos/matchbox
+# ignition
