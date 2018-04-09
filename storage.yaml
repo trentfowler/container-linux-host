@@ -1,0 +1,23 @@
+```yaml container-linux-config
+storage:
+    filesystems: 
+      - name: ephemeral1
+        mount: 
+            device: /dev/xvdb
+            format: ext4
+            wipe_filesystem: true
+      - mount: 
+            device: /dev/disk/by-id/scsi-0Google_PersistentDisk_database-backup
+            format: ext4
+    files:
+      - path: /etc/ssh/sshd_config
+        filesystem: root
+        mode: 0600
+        contents:
+        inline: |
+            Subsystem sftp internal-sftp
+            UseDNS no
+            PermitRootLogin no
+            AllowUsers trent
+            AuthenticationMethods publickey
+```

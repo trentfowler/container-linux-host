@@ -1,0 +1,65 @@
+```yaml container-linux-config
+systemd:
+    units: 
+      - name: docker-tcp.socket
+        enable: true
+        contents: |
+            [Unit]
+            Description: Docker Socket for API
+            [Socket]
+            ListenStream=2375
+            BindIPv6Only=both
+            Service=docker.service
+            [Install]
+            WantedBy=sockets.target
+      - name: media-ephemeral.mount
+        enable: true
+        contents: |
+            [Unit]
+            Before=local-fs.target
+            [Mount]
+            What=/dev/xvdb
+            Where=/media/ephemeral
+            Type=ext4
+            [Install]
+            WantedBy=local-fs.target
+      - name: media-backup.mount
+        enable: true
+        contents: |
+            [Mount]
+            What=/dev/disk/by-id/scsi-0Google_PersistentDisk_database-backup
+            Where=/media/backup
+            Type=ext4
+            [Install]
+            RequiredBy=local-fs.target
+      - name: var-lib-docker.mount
+        enable: true
+        contents: |
+            [Unit]
+            Description=Mount ephemeral to /var/lib/docker
+            Before=local-fs.target
+            [Mount]
+            What=/dev/xvdb
+            Where=/var/lib/docker
+            Type=ext4
+            [Install]
+            WantedBy=local-fs.target
+      - name: docker.service
+        dropins:
+      - name: 10-wait-docker.conf
+        contents: |
+            [Unit]
+            After=var-lib-docker.mount
+            Requires=var-lib-docker.mount
+      - name: var-www.mount
+        enable: true
+        contents: |
+            [Unit]
+            Before=remote-fs.target
+            [Mount]
+            What=nfs.example.com:/var/www
+            Where=/var/www
+            Type=nfs
+            [Install]
+            WantedBy=remote-fs.target
+```

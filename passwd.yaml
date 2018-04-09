@@ -1,0 +1,10 @@
+```yaml container-linux-config
+passwd:
+    users: 
+      - name: trent
+        password_hash: "ecd2fdc1d49afe9ba4df4b0354d193aa56b8a91b9236b0af91316566fa4584569374d145d1861286360f29e27f4a4f10d23532ac114e6f3f9c32ddaeae8556dc"
+        groups: 
+          - wheel
+          - docker
+        home_dir: /home/trent
+```
